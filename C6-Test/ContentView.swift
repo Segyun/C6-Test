@@ -17,6 +17,9 @@ struct ContentView: View {
         NavigationLink("AudioKit PitchTap") {
           PitchTapView()
         }
+        NavigationLink("Basic Pitch") {
+          BasicPitchView()
+        }
       }
       .navigationTitle("C6 Test")
     }

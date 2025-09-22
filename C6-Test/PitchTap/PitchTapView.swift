@@ -11,6 +11,8 @@ import SwiftUI
 struct PitchTapView: View {
   @State private var viewModel = PitchTapViewModel()
 
+  @State private var scrollPosition: ScrollPosition = ScrollPosition()
+
   var body: some View {
     VStack(spacing: 16) {
       Text("Pitch")
@@ -18,9 +20,28 @@ struct PitchTapView: View {
       Text(viewModel.noteName)
         .font(.system(size: 48, weight: .semibold, design: .rounded))
 
+      ScrollView(.horizontal) {
+        LazyHStack {
+          ForEach(viewModel.notes) { note in
+            VStack {
+              Text(note.note)
+              Text(String(format: "%.1f", note.length))
+            }
+            .id(note.id)
+          }
+        }
+      }
+      .scrollPosition($scrollPosition)
+      .onChange(of: viewModel.notes) { oldValue, newValue in
+        if let last = viewModel.notes.last {
+          scrollPosition.scrollTo(id: last.id)
+        }
+      }
+
       VStack {
         Text("Frequency: \(String(format: "%.1f", viewModel.frequency)) Hz")
         Text("Amplitude: \(String(format: "%.4f", viewModel.amplitude))")
+        Text("TimeGap: \(String(describing: viewModel.timeGap))")
       }
       .font(.callout)
       .foregroundStyle(.secondary)

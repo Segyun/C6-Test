@@ -11,6 +11,24 @@ import AudioKitEX
 import SoundpipeAudioKit
 
 @Observable
+class Note: Identifiable, Equatable {
+  let id: UUID = UUID()
+  var note: String
+  var length: TimeInterval
+
+  init(note: String, length: TimeInterval) {
+    self.note = note
+    self.length = length
+  }
+
+  static func == (lhs: Note, rhs: Note) -> Bool {
+    return lhs.id == rhs.id
+      && lhs.note == rhs.note
+      && lhs.length == rhs.length
+  }
+}
+
+@Observable
 final class PitchTapViewModel {
   private(set) var frequency: AUValue = 0  // Hz
   private(set) var amplitude: AUValue = 0  // 0.0 ~ 1.0
@@ -21,7 +39,12 @@ final class PitchTapViewModel {
   private var silence: Fader?  // 출력은 무음 처리 (하울링 방지)
 
   // 잡음/무성 구간 필터링 임계값
-  private let minAmplitude: AUValue = 0.0005
+  private let minAmplitude: AUValue = 0.01
+
+  private(set) var timeGap: TimeInterval = 0.0
+  private var previousTime: Date = Date()
+
+  private(set) var notes: [Note] = []
 
   init() {
     // 오디오 세션 구성
@@ -47,6 +70,15 @@ final class PitchTapViewModel {
             self.frequency = f
             self.amplitude = a
             self.noteName = Self.hzToNoteName(frequency: f)
+
+            self.timeGap = Date().timeIntervalSince(self.previousTime)
+            self.previousTime = Date()
+
+            if let lastNote = self.notes.last, lastNote.note == self.noteName {
+              lastNote.length += self.timeGap
+            } else {
+              self.notes.append(Note(note: self.noteName, length: 0.0))
+            }
           }
         } else {
           Task { @MainActor in
@@ -103,6 +135,6 @@ final class PitchTapViewModel {
     let midi = Int(round(69 + 12 * log2(Double(f) / 440.0)))
     let name = noteNames[(midi % 12 + 12) % 12]
     let octave = midi / 12 - 1
-    return "\(name)\(octave) (\(String(format: "%.1f", f)) Hz)"
+    return "\(name)\(octave)"
   }
 }
