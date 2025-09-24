@@ -15,19 +15,17 @@ struct PitchTapView: View {
 
   var body: some View {
     VStack(spacing: 16) {
-      Text("Pitch")
-        .font(.title.bold())
-      Text(viewModel.noteName)
-        .font(.system(size: 48, weight: .semibold, design: .rounded))
-
-      ScrollView(.horizontal) {
-        LazyHStack {
+      ScrollView {
+        LazyVGrid(columns: Array(repeating: GridItem(), count: 4)) {
           ForEach(viewModel.notes) { note in
             VStack {
               Text(note.note)
               Text(String(format: "%.1f", note.length))
             }
             .id(note.id)
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(.secondary, in: RoundedRectangle(cornerRadius: 8))
           }
         }
       }
@@ -37,6 +35,12 @@ struct PitchTapView: View {
           scrollPosition.scrollTo(id: last.id)
         }
       }
+      .animation(.default, value: scrollPosition)
+
+      Text("Pitch")
+        .font(.title.bold())
+      Text(viewModel.noteName)
+        .font(.system(size: 48, weight: .semibold, design: .rounded))
 
       VStack {
         Text("Frequency: \(String(format: "%.1f", viewModel.frequency)) Hz")

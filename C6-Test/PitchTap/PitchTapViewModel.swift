@@ -9,6 +9,7 @@ import AVFAudio
 import AudioKit
 import AudioKitEX
 import SoundpipeAudioKit
+import Tonic
 
 @Observable
 class Note: Identifiable, Equatable {
@@ -45,6 +46,8 @@ final class PitchTapViewModel {
   private var previousTime: Date = Date()
 
   private(set) var notes: [Note] = []
+  private var previousNoteName: String = "-"
+  private var previousNoteTime: TimeInterval = 0.0
 
   init() {
     // 오디오 세션 구성
@@ -66,27 +69,41 @@ final class PitchTapViewModel {
       // 콜백은 오디오 스레드 → UI 반영은 메인 큐에서
       if let f = pitch.first, let a = amp.first {
         if a > self.minAmplitude && f > 0 {
-          Task { @MainActor in
-            self.frequency = f
-            self.amplitude = a
-            self.noteName = Self.hzToNoteName(frequency: f)
+          //          Task { @MainActor in
+          self.frequency = f
+          self.amplitude = a
+          self.noteName = Self.hzToNoteName(frequency: f)
+          //          }
+        } else {
+          //          Task { @MainActor in
+          self.frequency = 0
+          self.amplitude = a
+          self.noteName = "—"
+          //          }
+        }
 
-            self.timeGap = Date().timeIntervalSince(self.previousTime)
-            self.previousTime = Date()
+        self.timeGap = Date().timeIntervalSince(self.previousTime)
 
-            if let lastNote = self.notes.last, lastNote.note == self.noteName {
-              lastNote.length += self.timeGap
+        if self.previousNoteName == self.noteName {
+          self.previousNoteTime += self.timeGap
+        } else {
+          if self.previousNoteTime > 0.05 {
+            if let lastNote = self.notes.last,
+              self.previousNoteName == "—",
+              lastNote.note == self.previousNoteName
+            {
+              self.notes.last?.length += self.previousNoteTime
             } else {
-              self.notes.append(Note(note: self.noteName, length: 0.0))
+              self.notes.append(
+                Note(note: self.previousNoteName, length: self.previousNoteTime)
+              )
             }
           }
-        } else {
-          Task { @MainActor in
-            self.frequency = 0
-            self.amplitude = a
-            self.noteName = "—"
-          }
+          self.previousNoteName = self.noteName
+          self.previousNoteTime = 0.0
         }
+
+        self.previousTime = Date()
       }
     }
   }
@@ -136,5 +153,14 @@ final class PitchTapViewModel {
     let name = noteNames[(midi % 12 + 12) % 12]
     let octave = midi / 12 - 1
     return "\(name)\(octave)"
+  }
+
+  static func hzToNote(frequency f: AUValue) -> Tonic.Note? {
+    guard f > 0 else { return nil }
+    let noteNames = [
+      "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
+    ]
+    let midi = Int(round(69 + 12 * log2(Double(f) / 440.0)))
+    return Tonic.Note(pitch: Pitch(intValue: midi), key: Key.c)
   }
 }
