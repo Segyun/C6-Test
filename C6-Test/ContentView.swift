@@ -11,9 +11,6 @@ struct ContentView: View {
   var body: some View {
     NavigationStack {
       List {
-        NavigationLink("Swift-F0") {
-          SwiftF0View()
-        }
         NavigationLink("AudioKit PitchTap") {
           PitchTapView()
         }

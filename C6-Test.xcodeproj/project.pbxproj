@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E36EDB722E784A5D0031C3C0 /* onnxruntime in Frameworks */ = {isa = PBXBuildFile; productRef = E36EDB712E784A5D0031C3C0 /* onnxruntime */; };
-		E36EDB742E784A5D0031C3C0 /* onnxruntime_extensions in Frameworks */ = {isa = PBXBuildFile; productRef = E36EDB732E784A5D0031C3C0 /* onnxruntime_extensions */; };
 		E3A663192E7A75AF004DAA5C /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = E3A663182E7A75AF004DAA5C /* AudioKit */; };
 		E3A6631C2E7A75C2004DAA5C /* SoundpipeAudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = E3A6631B2E7A75C2004DAA5C /* SoundpipeAudioKit */; };
 		E3A6631F2E7A7644004DAA5C /* AudioKitEX in Frameworks */ = {isa = PBXBuildFile; productRef = E3A6631E2E7A7644004DAA5C /* AudioKitEX */; };
@@ -33,9 +31,7 @@
 			files = (
 				E3A663192E7A75AF004DAA5C /* AudioKit in Frameworks */,
 				E3A6631F2E7A7644004DAA5C /* AudioKitEX in Frameworks */,
-				E36EDB742E784A5D0031C3C0 /* onnxruntime_extensions in Frameworks */,
 				E3A6631C2E7A75C2004DAA5C /* SoundpipeAudioKit in Frameworks */,
-				E36EDB722E784A5D0031C3C0 /* onnxruntime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,8 +74,6 @@
 			);
 			name = "C6-Test";
 			packageProductDependencies = (
-				E36EDB712E784A5D0031C3C0 /* onnxruntime */,
-				E36EDB732E784A5D0031C3C0 /* onnxruntime_extensions */,
 				E3A663182E7A75AF004DAA5C /* AudioKit */,
 				E3A6631B2E7A75C2004DAA5C /* SoundpipeAudioKit */,
 				E3A6631E2E7A7644004DAA5C /* AudioKitEX */,
@@ -113,7 +107,6 @@
 			mainGroup = E36EDB592E7842F10031C3C0;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				E36EDB702E784A5D0031C3C0 /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */,
 				E3A663172E7A75AF004DAA5C /* XCRemoteSwiftPackageReference "AudioKit" */,
 				E3A6631A2E7A75C2004DAA5C /* XCRemoteSwiftPackageReference "SoundpipeAudioKit" */,
 				E3A6631D2E7A7644004DAA5C /* XCRemoteSwiftPackageReference "AudioKitEX" */,
@@ -362,14 +355,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		E36EDB702E784A5D0031C3C0 /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/microsoft/onnxruntime-swift-package-manager.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.20.0;
-			};
-		};
 		E3A663172E7A75AF004DAA5C /* XCRemoteSwiftPackageReference "AudioKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AudioKit/AudioKit.git";
@@ -397,16 +382,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E36EDB712E784A5D0031C3C0 /* onnxruntime */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E36EDB702E784A5D0031C3C0 /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */;
-			productName = onnxruntime;
-		};
-		E36EDB732E784A5D0031C3C0 /* onnxruntime_extensions */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E36EDB702E784A5D0031C3C0 /* XCRemoteSwiftPackageReference "onnxruntime-swift-package-manager" */;
-			productName = onnxruntime_extensions;
-		};
 		E3A663182E7A75AF004DAA5C /* AudioKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E3A663172E7A75AF004DAA5C /* XCRemoteSwiftPackageReference "AudioKit" */;
