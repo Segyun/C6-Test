@@ -17,6 +17,9 @@ struct ContentView: View {
         NavigationLink("Basic Pitch") {
           BasicPitchView()
         }
+        NavigationLink("Score Editor") {
+          ScoreEditorView()
+        }
       }
       .navigationTitle("C6 Test")
     }
