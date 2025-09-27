@@ -1,0 +1,24 @@
+{
+  "Inputs" : {
+    "mask" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "melody" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "Outputs" : {
+    "type_logits" : {
+      "MLFeatureShortDescription" : "--"
+    },
+    "root_logits" : {
+      "MLFeatureShortDescription" : "--"
+    }
+  },
+  "TrainingInputs" : {
+
+  },
+  "States" : {
+
+  }
+}
