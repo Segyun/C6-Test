@@ -10,6 +10,6 @@ import Tonic
 
 struct NoteWithDuration: Identifiable {
   let id: UUID = UUID()
-  let note: Tonic.Note
-  let duration: NoteDuration
+  var note: Tonic.Note
+  var duration: NoteDuration
 }

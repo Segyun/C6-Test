@@ -104,7 +104,7 @@ struct ScoreView: View {
         }
         .padding(.horizontal)
         ForEach(notes) { note in
-          NoteView(note: note)
+          ScoreNoteView(note: note)
             .contextMenu {
               Button("삭제", role: .destructive) {
                 notes.removeAll(where: { $0.id == note.id })
@@ -126,7 +126,7 @@ struct ScoreView: View {
   }
 }
 
-struct NoteView: View {
+struct ScoreNoteView: View {
   let note: ScoreEditor.Note
 
   var body: some View {

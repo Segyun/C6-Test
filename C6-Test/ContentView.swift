@@ -20,6 +20,9 @@ struct ContentView: View {
         NavigationLink("Score Editor") {
           ScoreEditorView()
         }
+        NavigationLink("Chord Inference") {
+          ChordInferenceView()
+        }
       }
       .navigationTitle("C6 Test")
     }
